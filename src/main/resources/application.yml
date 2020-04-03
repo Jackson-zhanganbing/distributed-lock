@@ -6,4 +6,6 @@ spring:
     jedis:
       pool:
         max-idle: 10
-    host: localhost
+    host: 47.108.180.95
+server:
+  port: 9000

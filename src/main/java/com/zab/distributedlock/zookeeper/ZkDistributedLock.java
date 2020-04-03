@@ -72,7 +72,6 @@ public class ZkDistributedLock implements Lock, Watcher {
         try {
             //创建临时有序结点
             CURRENT_LOCK = zk.create(ROOT_LOCK + "/", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-
             System.out.println(Thread.currentThread().getName() + "-->" + CURRENT_LOCK + "尝试竞争锁");
             List<String> children = zk.getChildren(ROOT_LOCK, false);
             SortedSet<String> treeSet = new TreeSet<>();

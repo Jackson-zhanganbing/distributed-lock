@@ -12,6 +12,8 @@ public class Test {
     @Autowired
     private RedisDistributedLock lock;
 
+    private int j = 0;
+
     @RequestMapping("/test")
     public void test() throws Exception {
 
@@ -21,6 +23,8 @@ public class Test {
                 try {
                     countDownLatch.await();
                     lock.lock();
+                    System.out.println(Thread.currentThread().getName()+"正在执行！");
+                    System.out.println("j变为了："+ j++);
                     Thread.sleep(1000);
                     lock.releaseLock();
                 } catch (InterruptedException e) {

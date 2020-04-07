@@ -27,13 +27,13 @@ public class RedissonTest {
         if(redisUtil.get("test")==null){
             redisUtil.set("test",0);
         }
-        j = (int)redisUtil.get("test");
 
         CountDownLatch countDownLatch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 try {
                     rlock.lock(20, TimeUnit.SECONDS);
+                    j = (int)redisUtil.get("test");
                     System.out.println(Thread.currentThread().getName() + "正在执行！");
                     for (int k = 0; k < 1000; k++) {
                         j++;

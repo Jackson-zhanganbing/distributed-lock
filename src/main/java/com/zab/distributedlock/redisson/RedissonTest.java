@@ -1,5 +1,6 @@
 package com.zab.distributedlock.redisson;
 
+import com.zab.distributedlock.redis.RedisUtil;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +13,21 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/redisson")
 public class RedissonTest {
-
-    private int j = 0;
-
+    int j = 0;
     @Autowired
     private RedissonClient redissonClient;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping("/test")
     public void cameraCallback() throws Exception {
 
         RLock rlock = redissonClient.getLock("redisson:lock:personId" + 123);
+        if(redisUtil.get("test")==null){
+            redisUtil.set("test",0);
+        }
+        j = (int)redisUtil.get("test");
 
         CountDownLatch countDownLatch = new CountDownLatch(10);
         for (int i = 0; i < 10; i++) {
@@ -32,6 +38,8 @@ public class RedissonTest {
                     for (int k = 0; k < 1000; k++) {
                         j++;
                     }
+                    redisUtil.set("test",j);
+                    Thread.sleep(1000);
                     countDownLatch.countDown();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -43,7 +51,7 @@ public class RedissonTest {
         }
 
         countDownLatch.await();
-        System.out.println("j=" + j);
+        System.out.println("j=" + redisUtil.get("test"));
 
     }
 

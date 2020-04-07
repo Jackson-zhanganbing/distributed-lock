@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CountDownLatch;
 
 @RestController
-@RequestMapping("/test")
-public class Test {
+@RequestMapping("/redis")
+public class RedisTest {
     @Autowired
     private RedisDistributedLock lock;
 

@@ -1,11 +1,11 @@
 spring:
   redis:
     port: 6379
-    password:
+    password: root
     timeout: 1000
     jedis:
       pool:
         max-idle: 10
-    host: 47.108.180.95
+    host: 118.24.232.124
 server:
   port: 9000

@@ -37,7 +37,7 @@ public class RedisDistributedLock {
 
     private boolean tryLock() {
         //尝试获得锁，就是尝试往redis的固定某个key写入数据
-        if (redisUtil.setIfNotExist(LOCKKEY, LOCKVALUE, TIMEOUT)) {
+        if (redisUtil.setIfNotExist(LOCKKEY, LOCKVALUE+Thread.currentThread().getId(), TIMEOUT)) {
             return true;
         }
         return false;
@@ -47,7 +47,7 @@ public class RedisDistributedLock {
 
         Object result = redisUtil.exeLuaScript(redisScript,
                 Collections.singletonList(LOCKKEY),
-                LOCKVALUE);
+                LOCKVALUE+Thread.currentThread().getId());
         System.out.println("releaseLock-lua脚本执行结果："+result);
 
         if(RELEASE_SUCCESS.equals(result)){

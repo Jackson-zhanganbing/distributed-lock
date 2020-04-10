@@ -14,10 +14,18 @@ import org.springframework.scripting.support.ResourceScriptSource;
  */
 @Configuration
 public class LuaConfiguration {
-    @Bean
-    public DefaultRedisScript<Boolean> redisScript() {
+
+    @Bean("redisLockScript")
+    public DefaultRedisScript<Boolean> redisLockScript() {
         DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/Test.lua")));
+        redisScript.setResultType(Boolean.class);
+        return redisScript;
+    }
+    @Bean("limitFlowRedisScript")
+    public DefaultRedisScript<Boolean> limitFlowRedisScript() {
+        DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/limitFlow.lua")));
         redisScript.setResultType(Boolean.class);
         return redisScript;
     }

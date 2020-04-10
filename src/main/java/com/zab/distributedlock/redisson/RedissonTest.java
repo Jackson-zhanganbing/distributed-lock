@@ -23,7 +23,7 @@ public class RedissonTest {
     @RequestMapping("/test")
     public void cameraCallback() throws Exception {
 
-        RLock rlock = redissonClient.getLock("redisson:lock:personId" + 123);
+        RLock rlock = redissonClient.getLock("redisson:lock:id" + 123);
         if(redisUtil.get("test")==null){
             redisUtil.set("test",0);
         }

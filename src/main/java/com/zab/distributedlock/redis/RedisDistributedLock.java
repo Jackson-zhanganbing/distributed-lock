@@ -1,6 +1,7 @@
 package com.zab.distributedlock.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ public class RedisDistributedLock {
     private RedisUtil redisUtil;
 
     @Autowired
+    @Qualifier("redisLockScript")
     private DefaultRedisScript<Boolean> redisScript;
 
     public static final String LOCKKEY = "lockKey";
